@@ -11,8 +11,11 @@ const upload = multer({ dest: "./images" });
 const port = process.env.PORT || 3000;
 
 app.post("/image", upload.single("image"), (req, res) => {
-  console.log("got something");
-  res.json({ message: "Image received" });
+  console.log("got something", req.file);
+  if (!req.file) {
+    res.json({ message: "No file" });
+  }
+  res.json({ message: "Image received", size: req.file.size });
 });
 
 app.post("/qr", (req, res) => {
